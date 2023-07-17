@@ -12,7 +12,7 @@ router.post("/register", async function(request, response){
     const userFromDb= await userFind(email)  
 
     if (userFromDb) {
-        response.status(400).send({message:"Email Already exists"})
+        response.status(400).send({status:400, message:"Email Already exists"})
     }
     else {
         const createHashedPassword =await  generatePassword(password)
@@ -28,7 +28,7 @@ router.post("/login", async function(request, response){
     const userFromDb = await userFind(email)  
 
     if (!userFromDb) {
-        response.status(401).send({message:"Unauthroize"})
+        response.status(401).send({ status:401, message:"Unauthroize"})
     }
     else{
         const storedDBPassword = userFromDb.password;
@@ -37,9 +37,9 @@ router.post("/login", async function(request, response){
         
         if (isPasswordCheck) {
           const token = jwt.sign({ id : userFromDb._id }, process.env.SECRET_KEY);
-          response.send({ message : "Successful login", token : token });
+          response.status(200).send({status:200, message : "Successful login", token : token });
         } else {
-          response.status(401).send({ message: "Invalid Credentials"});
+          response.status(401).send({status:401, message: "Invalid Credentials"});
         }
     }
 })
