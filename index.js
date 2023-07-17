@@ -14,9 +14,7 @@ await client.connect()
 console.log("MongoDb Connected Successfully")
 
 app.use(express.json())
-app.use(cors({
-    origin:"http://localhost:3000"
-}))
+app.use(cors())
 
 app.get("/", function(request, response){
     response.send({message: "Welcome to Login / LogOut APP"})
